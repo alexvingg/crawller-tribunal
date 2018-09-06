@@ -8,5 +8,5 @@ A api está disponível na url http://localhost:8080 e o front na url http://loc
 
 # Exemplos de processos
 
-1002298-86.2015.8.26.0271 - TJSP
-0821901-51.2018.8.12.0001 - TJMS
+- 1002298-86.2015.8.26.0271 - TJSP
+- 0821901-51.2018.8.12.0001 - TJMS
