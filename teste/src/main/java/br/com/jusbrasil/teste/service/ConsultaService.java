@@ -22,23 +22,41 @@ import java.util.regex.Pattern;
 @Service
 public class ConsultaService {
 
-    private static final String URL = "https://esaj.tjsp.jus.br/cpopg/search.do;jsessionid=32E57541FC6" +
+    private static final String URL_TJSP = "https://esaj.tjsp.jus.br/cpopg/search.do;jsessionid=32E57541FC6" +
             "58DB290350129234B752E.cpopg4?conversationId=&dadosConsulta.localPesquisa.cdLocal=-1&cbP" +
             "esquisa=NUMPROC&dadosConsulta.tipoNuProcesso=UNIFICADO&numeroDigitoAnoUnificado={0}" +
             "&foroNumeroUnificado={1}" +
             "&dadosConsulta.valorConsultaNuUnificado={2}&dadosConsulta.valorConsulta=&uuidCaptcha=";
 
+
+    private static final String URL_TJMS = "https://www.tjms.jus.br/cpopg5/search.do?conversationId=&dadosCo" +
+            "nsulta.localPesquisa.cdLocal=-1&cbPesquisa=NUMPROC&dadosConsulta.tipoNuProcesso=UNIFICADO&numer" +
+            "oDigitoAnoUnificado={0}&foroNumeroUnificado={1}&dadosConsulta.valorConsul" +
+            "taNuUnificado={2}&dadosConsulta.valorConsulta=&uuidCaptcha=";
+
     private static final String MSG_SEM_INFO = "Não existem informações disponíveis para os parâmetros informados.";
 
-    public Processo consultaProcesso(String numeroProcesso) throws IOException {
+    public Processo consultaProcesso(int tipo , String numeroProcesso) throws IOException {
 
         if(validaNumeroProcesso(numeroProcesso)){
             throw new ParametrosInvalidos("Número de processo inválido");
         }
 
-        String url = MessageFormat.format(URL ,numeroProcesso.substring(0, 15),
-                numeroProcesso.substring(numeroProcesso.length() -4,
-                numeroProcesso.length()), numeroProcesso);
+        if(tipo < 1 && tipo > 2){
+            throw new ParametrosInvalidos("Tribunal inválido");
+        }
+
+        String url;
+
+        if(tipo == 1){
+            url = MessageFormat.format(URL_TJSP ,numeroProcesso.substring(0, 15),
+                    numeroProcesso.substring(numeroProcesso.length() -4,
+                            numeroProcesso.length()), numeroProcesso);
+        }else{
+            url = MessageFormat.format(URL_TJMS ,numeroProcesso.substring(0, 15),
+                    numeroProcesso.substring(numeroProcesso.length() -4,
+                            numeroProcesso.length()), numeroProcesso);
+        }
 
         Processo processo = new Processo();
         Document document = Jsoup.connect(url).get();

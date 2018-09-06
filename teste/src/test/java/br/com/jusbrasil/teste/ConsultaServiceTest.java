@@ -47,7 +47,7 @@ public class ConsultaServiceTest {
 
     @Test
     public void consultaDocumentoValido() throws IOException {
-        Processo processo = this.consultaService.consultaProcesso("1002298-86.2015.8.26.0271");
+        Processo processo = this.consultaService.consultaProcesso(1,"1002298-86.2015.8.26.0271");
         Assert.assertEquals(processo.getDadosProcesso().get(0).getValor().trim(), "1002298-86.2015.8.26.0271");
     }
 
@@ -58,7 +58,7 @@ public class ConsultaServiceTest {
         processos.forEach(s -> {
             Processo processo = null;
             try {
-                processo = this.consultaService.consultaProcesso(s);
+                processo = this.consultaService.consultaProcesso(1, s);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,7 +73,7 @@ public class ConsultaServiceTest {
     public void consultaDocumentoNaoExistente() throws IOException {
 
         try {
-            this.consultaService.consultaProcesso("1002298-86.2015.8.26.0272");
+            this.consultaService.consultaProcesso(1,"1002298-86.2015.8.26.0272");
         }catch (ParametrosInvalidos e){
             Assert.assertEquals("Não existem informações disponíveis para os parâmetros informados.", e.getMessage());
         }
@@ -83,7 +83,7 @@ public class ConsultaServiceTest {
     public void consultaDocumentoInvalido() throws IOException {
 
         try {
-            this.consultaService.consultaProcesso("1111");
+            this.consultaService.consultaProcesso(1,"1111");
         }catch (ParametrosInvalidos e){
             Assert.assertEquals("Número de processo inválido", e.getMessage());
         }

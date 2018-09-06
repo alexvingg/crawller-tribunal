@@ -117,7 +117,7 @@ export default {
     text: '',
     numeroProcesso: '',
     data: [],
-    items: [{ texto: 'TJSP', valor: 1 }],
+    items: [{ texto: 'TJSP', valor: 1 }, { texto: 'TJMS', valor: 2 }],
     valid: true,
     mask: '#######-##.####.#.##.####',
     numeroProcessoRegra: [
@@ -132,11 +132,16 @@ export default {
     submit() {
       this.data = [];
       if (this.$refs.form.validate()) {
-        axios.get(`http://localhost:8080/api/consulta?tipo=1&numeroProcesso=${this.numeroProcesso}`).then((res) => {
+        axios.get(`http://localhost:8080/api/consulta?tipo=${this.tribunal}
+        &numeroProcesso=${this.numeroProcesso}`).then((res) => {
           this.data = res.data;
         }).catch((error) => {
           this.snackbar = true;
-          this.text = error.response.data.label;
+          if (error.response && error.response.data.label) {
+            this.text = error.response.data.label;
+          } else {
+            this.text = 'Sem conexão';
+          }
         });
       }
     },

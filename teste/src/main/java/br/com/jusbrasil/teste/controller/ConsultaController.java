@@ -29,7 +29,7 @@ public class ConsultaController {
                                    @RequestParam(value="numeroProcesso")String numeroProcesso) {
 
         try {
-            Processo processo = this.consultaService.consultaProcesso(numeroProcesso);
+            Processo processo = this.consultaService.consultaProcesso(tipo, numeroProcesso);
             return new ResponseEntity(processo, HttpStatus.OK);
         }catch (ParametrosInvalidos e){
             ErrorResponse errorResponse = new ErrorResponse();
