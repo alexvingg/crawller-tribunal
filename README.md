@@ -1,4 +1,4 @@
-# crowller-tribunal
+# crawller-tribunal
 
 Para rodar o projeto é necessário ter o docker e o docker-compose instaldo.
 
